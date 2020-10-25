@@ -8,6 +8,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### npm start
 
+### project deployed on gitHub-pages by address: https://zelia-6385.github.io/Image-Slider-React/
+
 ## Available Scripts
 
 In the project directory, you can run:
