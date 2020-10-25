@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import Dots from './Dots';
-
+import images from '../data';
 export class Carousel extends PureComponent {
     constructor(props) {
         super(props);
@@ -37,46 +37,6 @@ export class Carousel extends PureComponent {
             this.cardContainer.children.length - 1
         ].cloneNode(true);
 
-        // add event listeners for Drag and Drop effects (desctop mouse)
-        const container = this.viewPort;
-
-        container.addEventListener('dragstart', (e) => {
-            this.setState({
-                ...this.state,
-                start: e.clientX,
-            });
-        });
-        container.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            let touch = e.clientX;
-            this.setState({
-                ...this.state,
-                change: this.state.start - touch,
-            });
-        });
-        container.addEventListener('dragend', () => {
-            this.slideShow(this.state.change);
-        });
-
-        // add event listeners for Touch effects (mobile)
-        container.addEventListener('touchstart', (e) => {
-            this.setState({
-                ...this.state,
-                start: e.touches[0].clientX,
-            });
-        });
-        container.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            let touch = e.touches[0];
-            this.setState({
-                ...this.state,
-                change: this.state.start - touch.clientX,
-            });
-        });
-        container.addEventListener('touchend', () => {
-            this.slideShow(this.state.change);
-        });
-
         // initial change state
         this.setState(
             {
@@ -91,21 +51,14 @@ export class Carousel extends PureComponent {
             },
         );
 
-        // add event listener for resize
-        window.addEventListener('resize', this.widthResize);
-    }
-
-    componentWillUnmount() {
-        // remove listeners
-        const container = this.viewPort;
-
-        container.removeEventListener('dragstart', (e) => {
+        // add event listeners for Drag and Drop effects (desctop mouse)
+        this.viewPort.addEventListener('dragstart', (e) => {
             this.setState({
                 ...this.state,
                 start: e.clientX,
             });
         });
-        container.removeEventListener('dragover', (e) => {
+        this.viewPort.addEventListener('dragover', (e) => {
             e.preventDefault();
             let touch = e.clientX;
             this.setState({
@@ -113,18 +66,18 @@ export class Carousel extends PureComponent {
                 change: this.state.start - touch,
             });
         });
-        container.removeEventListener('dragend', () => {
+        this.viewPort.addEventListener('dragend', () => {
             this.slideShow(this.state.change);
         });
 
         // add event listeners for Touch effects (mobile)
-        container.removeEventListener('touchstart', (e) => {
+        this.viewPort.addEventListener('touchstart', (e) => {
             this.setState({
                 ...this.state,
                 start: e.touches[0].clientX,
             });
         });
-        container.removeEventListener('touchmove', (e) => {
+        this.viewPort.addEventListener('touchmove', (e) => {
             e.preventDefault();
             let touch = e.touches[0];
             this.setState({
@@ -132,15 +85,57 @@ export class Carousel extends PureComponent {
                 change: this.state.start - touch.clientX,
             });
         });
-        container.removeEventListener('touchend', () => {
+        this.viewPort.addEventListener('touchend', () => {
             this.slideShow(this.state.change);
         });
 
-        window.removeEventListener('resize', this.widthResize);
+        // add event listener for resize
+        window.addEventListener('resize', this.resizeWidth);
+    }
+
+    componentWillUnmount() {
+        // remove listeners
+        this.viewPort.removeEventListener('dragstart', (e) => {
+            this.setState({
+                ...this.state,
+                start: e.clientX,
+            });
+        });
+        this.viewPort.removeEventListener('dragover', (e) => {
+            e.preventDefault();
+            let touch = e.clientX;
+            this.setState({
+                ...this.state,
+                change: this.state.start - touch,
+            });
+        });
+        this.viewPort.removeEventListener('dragend', () => {
+            this.slideShow(this.state.change);
+        });
+
+        this.viewPort.removeEventListener('touchstart', (e) => {
+            this.setState({
+                ...this.state,
+                start: e.touches[0].clientX,
+            });
+        });
+        this.viewPort.removeEventListener('touchmove', (e) => {
+            e.preventDefault();
+            let touch = e.touches[0];
+            this.setState({
+                ...this.state,
+                change: this.state.start - touch.clientX,
+            });
+        });
+        this.viewPort.removeEventListener('touchend', () => {
+            this.slideShow(this.state.change);
+        });
+
+        window.removeEventListener('resize', this.resizeWidth);
     }
 
     // method for adaptive change slider
-    widthResize = () => {
+    resizeWidth = () => {
         this.setState(
             {
                 ...this.state,
@@ -152,7 +147,7 @@ export class Carousel extends PureComponent {
         );
     };
 
-    // method for move slides with swipe effect
+    // method for move slides with swipe and drag and drop effects
     slideShow = (change) => {
         if (change > 0) {
             this.handleNext();
@@ -275,13 +270,13 @@ export class Carousel extends PureComponent {
                 </div>
                 <div className="carousel__view-port" ref={this.setViewPort}>
                     <div ref={this.setCardContainer} className="carousel__card-container">
-                        {this.props.images.map((image) => (
+                        {images.map((image) => (
                             <Card image={image} key={image} />
                         ))}
                     </div>
                 </div>
                 <Dots
-                    slides={this.props.images}
+                    slides={images}
                     activeIndex={this.state.currentCard - 1}
                     handlerCheckSlide={this.checkSlide}
                 />

@@ -2,20 +2,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+// import data from './data';
 import './scss/app.scss';
 import * as serviceWorker from './serviceWorker';
 
 // images for slider
-const images = [
-    'http://picsum.photos/400/200',
-    'http://picsum.photos/350/200',
-    'http://picsum.photos/500/200',
-    'http://picsum.photos/600/200',
-];
+// const images = [
+//     'http://picsum.photos/400/200',
+//     'http://picsum.photos/350/200',
+//     'http://picsum.photos/500/200',
+//     'http://picsum.photos/600/200',
+// ];
 
 ReactDOM.render(
     <React.StrictMode>
-        <App images={images} />
+        <App />
     </React.StrictMode>,
     document.getElementById('root'),
 );
