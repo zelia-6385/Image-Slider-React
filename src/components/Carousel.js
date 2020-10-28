@@ -150,9 +150,9 @@ export class Carousel extends PureComponent {
     // method for move slides with swipe and drag and drop effects
     slideShow = (change) => {
         if (change > 0) {
-            this.handlePrevios();
-        } else {
             this.handleNext();
+        } else {
+            this.handlePrevios();
         }
     };
 
